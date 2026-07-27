@@ -1,46 +1,56 @@
+"""
+Program: Alien Invasion: Side Strike - Track 1
+Author: Alberto Medina
+Purpose: Store configuration values and portable asset paths for the game. 
+Starter code: Based on the Alien Invasion classroom starter repository: 
+https://github.com/RedBeard41/alien_Invasion_starter
+Date: July 26, 2026 
+"""
+
 from pathlib import Path
 
 
 class Settings:
-    """Store settings for Alien Invasion."""
+    """Store static configuration values for the game."""
 
     def __init__(self) -> None:
-        self.name = "Alien Invasion"
+        """Initialize screen, ship, laser, sound, and asset settings."""
+        self.name = "Alien Invasion: Side Strike - Track 1"
         self.screen_w = 1200
         self.screen_h = 800
         self.FPS = 60
+
+        base_directory = Path(__file__).resolve().parent
+        asset_directory = base_directory / "Assets"
+
         self.bg_file = (
-            Path.cwd()
-            / "Assets"
+            asset_directory
             / "images"
             / "Starbasesnow.png"
         )
 
         self.ship_file = (
-            Path.cwd()
-            / "Assets"
+            asset_directory
             / "images"
-            /"ship2(no bg).png"
+            / "ship2(no bg).png"
         )
+
         self.ship_w = 40
-        self.ship_h = 60 
+        self.ship_h = 60
         self.ship_speed = 5
 
         self.bullet_file = (
-            Path.cwd()
-            /"Assets"
-            /"images"
-            /"laserBlast.png"
+            asset_directory
+            / "images"
+            / "laserBlast.png"
         )
-
         self.bullet_speed = 7
         self.bullet_w = 25
         self.bullet_h = 80
         self.bullet_amount = 5
-        
+
         self.laser_sound = (
-            Path.cwd()
-            /"Assets"
-            /"sound"
-            /"laser.mp3"
+            asset_directory
+            / "sound"
+            / "laser.mp3"
         )

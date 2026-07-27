@@ -1,3 +1,13 @@
+"""
+Program: Alien Invasion: Side Strike - Track 1
+Author: Alberto Medina
+Purpose: Initialize Pygame, manage the main game loop, process player
+input, and update the game display.
+Starter code: Based on the Alien Invasion classroom starter repository:
+https://github.com/RedBeard41/alien_Invasion_starter
+Date: July 26, 2026
+"""
+
 import sys
 import pygame
 from settings import Settings 
@@ -5,10 +15,10 @@ from ship import Ship
 from arsenal import Arsenal
 
 class AlienInvasion: 
-    """Manage the game screen and the main loop"""
+    """Manage the game resources, events, updates, and main loop."""
     
     def __init__(self) -> None:
-        """Initiates pygame and create the game window"""
+        """Initiates pygame and create the game resources."""
         pygame.init()
         self.settings = Settings()
 
@@ -34,7 +44,7 @@ class AlienInvasion:
         self.ship = Ship(self, Arsenal(self))
     
     def run_game(self)-> None:
-        """run the main game loop """
+        """Run the main game loop until the player exits."""
         #Game Loop 
         while self.running:
             self._check_events()
@@ -43,11 +53,13 @@ class AlienInvasion:
             self.clock.tick(self.settings.FPS)
 
     def _update_screen(self):
+        """Draw the current game objects and refresh the display."""
         self.screen.blit(self.bf, (0,0)) 
         self.ship.draw()     
         pygame.display.flip()
 
     def _check_events(self):
+        """Respond to keyboard and window events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
@@ -61,6 +73,7 @@ class AlienInvasion:
 
             
     def _check_keyup_events(self, event):
+        """Respond when the player releases a supported key."""
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
@@ -68,6 +81,7 @@ class AlienInvasion:
     
     
     def _check_keydown_events(self, event):
+        """Respond when the player releases a supported key."""
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
