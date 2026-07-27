@@ -1,53 +1,79 @@
-import pygame 
+"""
+Program: Alien Invasion: Side Strike - Track 1
+Author: Alberto Medina
+Purpose: Represent the player's ship and manage its movement, drawing,
+and laser-firing behavior.
+Starter code: Based on the Alien Invasion classroom starter repository:
+https://github.com/RedBeard41/alien_Invasion_starter
+Date: July 26, 2026
+"""
+
 from typing import TYPE_CHECKING
+
+import pygame
 
 if TYPE_CHECKING:
     from alien_invasion import AlienInvasion
-    from arsenal import Arsenal 
+    from arsenal import Arsenal
 
 
+class Ship:
+    """Represent the player's ship and its available arsenal."""
 
-class Ship: 
-    
-    def __init__(self, game: 'AlienInvasion', arsenal: 'Arsenal') -> None:
+    def __init__(
+        self,
+        game: "AlienInvasion",
+        arsenal: "Arsenal",
+    ) -> None:
+        """Initialize the ship's image, position, movement, and arsenal."""
         self.game = game
         self.settings = game.settings
         self.screen = game.screen
         self.boundaries = self.screen.get_rect()
 
         self.image = pygame.image.load(self.settings.ship_file)
-        self.image = pygame.transform.scale(self.image, 
-            (self.settings.ship_w, self.settings.ship_h)
-            )
-        
+        self.image = pygame.transform.scale(
+            self.image,
+            (self.settings.ship_w, self.settings.ship_h),
+        )
 
         self.rect = self.image.get_rect()
         self.rect.midbottom = self.boundaries.midbottom
+
         self.moving_right = False
         self.moving_left = False
         self.x = float(self.rect.x)
         self.arsenal = arsenal
 
-    def update(self):
-        # Updating the position of the ship
+    def update(self) -> None:
+        """Update the ship's position and active lasers."""
         self._update_ship_movement()
         self.arsenal.update_arsenal()
-        
-    def _update_ship_movement(self):    
-        temp_speed = self.settings.ship_speed
+
+    def _update_ship_movement(self) -> None:
+        """Move the ship horizontally while keeping it on the screen."""
+        temporary_speed = self.settings.ship_speed
+
         if self.moving_right and self.rect.right < self.boundaries.right:
-            self.x += temp_speed
+            self.x += temporary_speed
+
         if self.moving_left and self.rect.left > self.boundaries.left:
-            self.x -= temp_speed
+            self.x -= temporary_speed
 
-        self.rect.x = self.x    
+        self.rect.x = round(self.x)
 
-        
-
-    def draw(self):
+    def draw(self) -> None:
+        """Draw the active lasers and ship on the screen."""
         self.arsenal.draw()
         self.screen.blit(self.image, self.rect)
 
-    def fire(self):
+    def fire(self) -> bool:
+        """Attempt to fire a laser and report whether one was created."""
         return self.arsenal.fire_bullet()
-    
+
+
+
+
+        
+
+        
