@@ -7,42 +7,44 @@ https://github.com/RedBeard41/alien_Invasion_starter
 Date: July 26, 2026
 """
 
+from typing import TYPE_CHECKING
 
 import pygame
+
 from bullet import Bullet
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from alien_invasion import AlienInvasion
 
 class Arsenal: 
-    """Manage the collection of lasers fired by the player's ship"""
+    """Manage the collection of lasers fired by the player's ship."""
 
-    def __init__(self, game: 'AlienInvasion'):
+    def __init__(self, game: 'AlienInvasion') -> None:
         """Create an empty group for active lasers."""
         self.game = game
         self.settings = game.settings
+        self.boundaries = game.screen.get_rect()
         self.arsenal = pygame.sprite.Group()
 
-    def update_arsenal(self):
-        """Update every laser and remove lasers that leave the screen."""
+    def update_arsenal(self) -> None:
+        """Update every laser and remove lasers outside the screen."""
         self.arsenal.update()
         self._remove_bullets_offscreen()
 
 
-    def _remove_bullets_offscreen(self):
-        """Remove lasers that have traveled beyond the top edge."""
+    def _remove_bullets_offscreen(self) -> None:
+        """Remove lasers that have traveled beyond the right edge."""
         for bullet in self.arsenal.copy():
-            if bullet.rect.bottom <= 0:
+            if bullet.rect.left >= self.boundaries.right:
                 self.arsenal.remove(bullet)
 
-    def draw(self):
+    def draw(self) -> None:
         """Draw all active lasers."""
         for bullet in self.arsenal:
             bullet.draw_bullet()        
         
-    def fire_bullet(self):
-        """Create a laser if the maximum active-laser limit allows it."""
+    def fire_bullet(self) -> bool:
+        """Create a laser if the active-laser limit allows it."""
         if len(self.arsenal) < self.settings.bullet_amount:
             new_bullet = Bullet(self.game)
             self.arsenal.add(new_bullet)

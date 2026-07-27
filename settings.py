@@ -45,9 +45,9 @@ class Settings:
             / "laserBlast.png"
         )
         self.bullet_speed = 7
-        self.bullet_w = 25
+        self.bullet_w = 35
         self.bullet_h = 80
-        self.bullet_amount = 5
+        self.bullet_amount = 10
 
         self.laser_sound = (
             asset_directory

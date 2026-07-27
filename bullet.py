@@ -17,10 +17,10 @@ if TYPE_CHECKING:
 
 
 class Bullet(Sprite):
-    """Represent a laser fired from the player's ship."""
+    """Represent a horizontal laser fired from the player's ship."""
 
     def __init__(self, game: "AlienInvasion") -> None:
-        """Create a laser at the ship's current position."""
+        """Create a right-moving laser beside the ship."""
         super().__init__()
 
         self.screen = game.screen
@@ -32,14 +32,19 @@ class Bullet(Sprite):
             (self.settings.bullet_w, self.settings.bullet_h),
         )
 
+        # Rotate the upward-facing laser to it points right.
+        self.image = pygame.transform.rotate(self.image, -90)
+
+        # Position the laser at the right side of the ship.
         self.rect = self.image.get_rect()
-        self.rect.midtop = game.ship.rect.midtop
-        self.y = float(self.rect.y)
+        self.rect.midleft = game.ship.rect.midright
+        self.rect.left += 10
+        self.x = float(self.rect.x)
 
     def update(self) -> None:
-        """Move the laser upward across the screen."""
-        self.y -= self.settings.bullet_speed
-        self.rect.y = round(self.y)
+        """Move the laser horizontally toward the right edge."""
+        self.x += self.settings.bullet_speed
+        self.rect.x = round(self.x)
 
     def draw_bullet(self) -> None:
         """Draw the laser at its current position."""
