@@ -37,12 +37,17 @@ class Ship:
             (self.settings.ship_w, self.settings.ship_h),
         )
 
-        self.rect = self.image.get_rect()
-        self.rect.midbottom = self.boundaries.midbottom
+        #Rotate the upward facing ship clockwise so it faces right.
+        self.image = pygame.transform.rotate(self.image, -90)
 
-        self.moving_right = False
-        self.moving_left = False
-        self.x = float(self.rect.x)
+        #Start the ship near the middle of the left edge.
+        self.rect = self.image.get_rect()
+        self.rect.midleft = self.boundaries.midleft
+        self.rect.left = 20
+
+        self.moving_up = False
+        self.moving_down = False
+        self.y = float(self.rect.y)
         self.arsenal = arsenal
 
     def update(self) -> None:
@@ -51,16 +56,16 @@ class Ship:
         self.arsenal.update_arsenal()
 
     def _update_ship_movement(self) -> None:
-        """Move the ship horizontally while keeping it on the screen."""
+        """Move the ship vertically while keeping it on the screen."""
         temporary_speed = self.settings.ship_speed
 
-        if self.moving_right and self.rect.right < self.boundaries.right:
-            self.x += temporary_speed
+        if self.moving_up and self.rect.top > self.boundaries.top:
+            self.y -= temporary_speed
 
-        if self.moving_left and self.rect.left > self.boundaries.left:
-            self.x -= temporary_speed
+        if self.moving_down and self.rect.bottom < self.boundaries.bottom:
+            self.y += temporary_speed
 
-        self.rect.x = round(self.x)
+        self.rect.y = round(self.y)
 
     def draw(self) -> None:
         """Draw the active lasers and ship on the screen."""
@@ -70,10 +75,3 @@ class Ship:
     def fire(self) -> bool:
         """Attempt to fire a laser and report whether one was created."""
         return self.arsenal.fire_bullet()
-
-
-
-
-        
-
-        
