@@ -11,7 +11,7 @@ Date: August 2, 2026"""
 
 from typing import TYPE_CHECKING
 
-from pygame.sprite import Group, groupcollide
+from pygame.sprite import Group, groupcollide, spritecollideany
 
 from alien import Alien
 
@@ -63,9 +63,25 @@ class AlienFleet:
         self.aliens.add(alien)
 
     def update(self) -> None:
-        """Update all aliens and process laser collisions."""
+        """Update all aliens and process laser collisions and loss collisions."""
         self.aliens.update()
         self._check_laser_collisions()
+        self._check_loss_conditions
+
+
+    def _check_loss_conditions(self) -> None:
+        """Restart the game when an alien hits the ship or left the edge."""
+        ship_was_hit = (
+            spritecollideany(self.game.ship, self.aliens) is not None
+        )
+        alien_reached_edge = any(
+            alien.reached_left_edge()
+            for alien in self.aliens
+        )
+
+        if ship_was_hit or alien_reached_edge:
+            self.game.restart_game()
+
 
     def _check_laser_collisions(self) -> None:
         """Remove aliens and lasers involved in collisions."""
@@ -80,6 +96,11 @@ class AlienFleet:
 
         if not self.aliens:
             self._create_fleet()   
+
+    def reset_fleet(self) -> None:
+        """Remove the current aliens and create a new fleet."""
+        self.aliens.empty()
+        self._create_fleet()
 
     def draw(self) -> None:
         """Draw every alien in the fleet."""

@@ -75,3 +75,12 @@ class Ship:
     def fire(self) -> bool:
         """Attempt to fire a laser and report whether one was created."""
         return self.arsenal.fire_bullet()
+
+    def reset_position(self) -> None:
+        """Return the ship to its starting position and stop movement."""
+        self.rect.midleft = self.boundaries.midleft
+        self.rect.left = 20
+        self.y = float(self.rect.y)
+
+        self.moving_up = False
+        self.moving_down = False

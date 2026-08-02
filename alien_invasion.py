@@ -55,6 +55,12 @@ class AlienInvasion:
             self._update_screen()
             self.clock.tick(self.settings.FPS)
 
+    def restart_game(self) -> None:
+        """Reset the ship, lasers, and alien fleet after a loss."""
+        self.ship.arsenal.arsenal.empty()
+        self.ship.reset_position()
+        self.alien_fleet.reset_fleet()
+
     def _update_screen(self)-> None:
         """Draw the current game objects and refresh the display."""
         # Game loop
