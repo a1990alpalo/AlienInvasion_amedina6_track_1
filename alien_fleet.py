@@ -66,7 +66,7 @@ class AlienFleet:
         """Update all aliens and process laser collisions and loss collisions."""
         self.aliens.update()
         self._check_laser_collisions()
-        self._check_loss_conditions
+        self._check_loss_conditions()
 
 
     def _check_loss_conditions(self) -> None:
