@@ -13,6 +13,7 @@ import pygame
 from settings import Settings 
 from ship import Ship
 from arsenal import Arsenal
+from alien_fleet import AlienFleet
 
 class AlienInvasion: 
     """Manage the game resources, events, updates, and main loop."""
@@ -42,6 +43,7 @@ class AlienInvasion:
 
         
         self.ship = Ship(self, Arsenal(self))
+        self.alien_fleet = AlienFleet(self)
     
     def run_game(self)-> None:
         """Run the main game loop until the player exits."""
@@ -49,6 +51,7 @@ class AlienInvasion:
         while self.running:
             self._check_events()
             self.ship.update()
+            self.alien_fleet.update()
             self._update_screen()
             self.clock.tick(self.settings.FPS)
 
@@ -56,6 +59,7 @@ class AlienInvasion:
         """Draw the current game objects and refresh the display."""
         # Game loop
         self.screen.blit(self.bf, (0, 0))
+        self.alien_fleet.draw()
         self.ship.draw()     
         pygame.display.flip()
 

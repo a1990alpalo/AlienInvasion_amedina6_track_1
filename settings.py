@@ -39,6 +39,15 @@ class Settings:
         self.ship_h = 60
         self.ship_speed = 5
 
+        self.alien_file = (
+            asset_directory
+            / "images"
+            / "enemy_4.png"
+        )
+        self.alien_w = 60
+        self.alien_h = 60
+        self.fleet_speed = 1
+
         self.bullet_file = (
             asset_directory
             / "images"
