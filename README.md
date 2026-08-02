@@ -25,6 +25,22 @@ Completed features include:
 * Asset paths use Python’s `pathlib` library for Windows and macOS compatibility.
 * Modules, classes, and functions include descriptive docstrings.
 
+## Milestone 2: Fleet and Collision Logic
+
+Milestone 2 adds an alien fleet and game logic consistent with the new side-scrolling mechanics.
+
+Completed features include:
+
+* Aliens spawn in rows on the right half of the screen.
+* The alien fleet moves horizontally from right to left.
+* Lasers collide with and destroy aliens.
+* Lasers are removed after striking aliens.
+* A complete new fleet appears after all aliens are destroyed.
+* The game restarts when an alien collides with the ship.
+* The game restarts when an alien reaches the left edge behind the ship.
+* Restarting clears active lasers and returns the ship to its starting position.
+* Modules, classes, and functions include descriptive docstrings.
+
 ## Controls
 
 | Action     | Key               |
@@ -65,16 +81,24 @@ AlienInvasion_amedina6_track_1/
 ├── bullet.py
 ├── settings.py
 ├── ship.py
+├── alien.py
+├── alien_fleet.py
+├── alien_invasion.py
 ├── requirements.txt
 ├── .gitignore
 └── README.md
 ```
 
-## Milestone Evidence
-
-A screenshot or short demonstration video will show the ship positioned on the left side, moving vertically, and firing lasers horizontally toward the right edge.
 
 ## Development Roadmap
+## Development Roadmap
+
+### Final Submission
+
+* Add a Play button and game states.
+* Add score, high score, and remaining lives.
+* Hide the mouse cursor while gameplay is active.
+* Complete final testing and documentation.
 
 ### Milestone 2
 
