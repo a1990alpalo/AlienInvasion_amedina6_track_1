@@ -80,3 +80,8 @@ class Settings:
         )
         self.hud_font_size = 24
         self.text_color = (255, 255, 255)
+
+        self.button_w = 220
+        self.button_h = 70
+        self.button_color = (0,135,50)
+        self.button_font_size = 42
