@@ -68,7 +68,7 @@ class Settings:
 
         self.scores_file = (
             asset_directory
-            / "files"
+            / "file"
             / "scores.json"
         )
 
