@@ -69,7 +69,7 @@ class Settings:
         self.scores_file = (
             asset_directory
             / "files"
-            / "scores.js"
+            / "scores.json"
         )
 
         self.font_file = (
