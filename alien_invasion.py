@@ -16,6 +16,7 @@ from arsenal import Arsenal
 from alien_fleet import AlienFleet
 from game_stats import GameStats
 from hud import HUD
+from button import Button
 
 class AlienInvasion: 
     """Manage the game resources, events, updates, and main loop."""
@@ -48,14 +49,21 @@ class AlienInvasion:
         self.ship = Ship(self, Arsenal(self))
         self.hud = HUD(self)
         self.alien_fleet = AlienFleet(self)
+        self.play_button = Button(self, "Play")
+
+        self.game_active = False
+        pygame.mouse.set_visible(True)
     
     def run_game(self)-> None:
         """Run the main game loop until the player exits."""
         #Game Loop 
         while self.running:
             self._check_events()
-            self.ship.update()
-            self.alien_fleet.update()
+
+            if self.game_active: 
+                self.ship.update()
+                self.alien_fleet.update()
+
             self._update_screen()
             self.clock.tick(self.settings.FPS)
 
@@ -71,7 +79,11 @@ class AlienInvasion:
         self.screen.blit(self.bf, (0, 0))
         self.alien_fleet.draw()
         self.ship.draw()
-        self.hud.draw()     
+        self.hud.draw()
+
+        if not self.game_active:
+            self.play_button.draw()
+
         pygame.display.flip()
 
     def _check_events(self)-> None:
@@ -85,6 +97,29 @@ class AlienInvasion:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                self._check_play_button(event.pos)
+
+    def _check_play_button(
+            self,
+            mouse_position: tuple[int, int],
+    ) ->None:
+        """Start a new game when the inactive Play button is clicked."""
+        button_was_clicked = self.play_button.was_clicked(mouse_position)
+
+        if button_was_clicked and not self.game_active:
+            self._start_new_game()
+
+    def _start_new_game(self) -> None:
+        """Reset game and restart a new active game."""
+        self.game_stats.reset_stats()
+        self.ship.arsenal.arsenal.empty()
+        self.ship.reset_position()
+        self.alien_fleet.reset_fleet()
+        self.hud.update_all()
+
+        self.game_active = True
+        pygame.mouse.set_visible(False)
                 
 
             
@@ -96,8 +131,16 @@ class AlienInvasion:
             self.ship.moving_down = False
     
     
-    def _check_keydown_events(self, event)-> None:
+    def _check_keydown_events(self, event) -> None:
         """Respond when the player presses a supported key."""
+        if event.key == pygame.K_q:
+            self.running = False
+            pygame.quit()
+            sys.exit()
+
+        if not self.game_active:
+            return
+
         if event.key in (pygame.K_UP, pygame.K_w):
             self.ship.moving_up = True
         elif event.key in (pygame.K_DOWN, pygame.K_s):
@@ -106,15 +149,7 @@ class AlienInvasion:
             if self.ship.fire():
                 self.laser_sound.play()
                 self.laser_sound.fadeout(250)
-        elif event.key == pygame.K_q:
-            self.running = False
-            pygame.quit()
-            sys.exit()
         
-            
-
-
-
 if __name__ == '__main__':
     ai = AlienInvasion()
     ai.run_game()
