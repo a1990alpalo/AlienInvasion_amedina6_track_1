@@ -84,18 +84,25 @@ class AlienFleet:
 
 
     def _check_laser_collisions(self) -> None:
-        """Remove aliens and lasers involved in collisions."""
+        """Award points and remove aliens and lasers after collisions."""
         lasers = self.game.ship.arsenal.arsenal
 
-        groupcollide(
+        collisions = groupcollide(
             self.aliens,
             lasers,
             True,
-            True
-        ) 
+            True,
+        )
+
+        if collisions:
+            destroyed_aliens = len(collisions)
+            self.game.game_stats.update_score(destroyed_aliens)
+            self.game.hud.update_all()
 
         if not self.aliens:
-            self._create_fleet()   
+            self.game.game_stats.increase_level()
+            self.game.hud.update_all()
+            self._create_fleet()
 
     def reset_fleet(self) -> None:
         """Remove the current aliens and create a new fleet."""
