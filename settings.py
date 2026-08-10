@@ -69,5 +69,14 @@ class Settings:
         self.scores_file = (
             asset_directory
             / "files"
-            / "scores.json"
+            / "scores.js"
         )
+
+        self.font_file = (
+            asset_directory
+            / "Fonts"
+            / "Silkscreen"
+            / "Silkscreen-Regular.ttf"
+        )
+        self.hud_font_size = 24
+        self.text_color = (255, 255, 255)
