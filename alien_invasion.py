@@ -15,6 +15,7 @@ from ship import Ship
 from arsenal import Arsenal
 from alien_fleet import AlienFleet
 from game_stats import GameStats
+from hud import HUD
 
 class AlienInvasion: 
     """Manage the game resources, events, updates, and main loop."""
@@ -45,6 +46,7 @@ class AlienInvasion:
 
         
         self.ship = Ship(self, Arsenal(self))
+        self.hud = HUD(self)
         self.alien_fleet = AlienFleet(self)
     
     def run_game(self)-> None:
@@ -68,7 +70,8 @@ class AlienInvasion:
         # Game loop
         self.screen.blit(self.bf, (0, 0))
         self.alien_fleet.draw()
-        self.ship.draw()     
+        self.ship.draw()
+        self.hud.draw()     
         pygame.display.flip()
 
     def _check_events(self)-> None:
