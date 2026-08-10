@@ -14,6 +14,7 @@ from settings import Settings
 from ship import Ship
 from arsenal import Arsenal
 from alien_fleet import AlienFleet
+from game_stats import GameStats
 
 class AlienInvasion: 
     """Manage the game resources, events, updates, and main loop."""
@@ -22,6 +23,7 @@ class AlienInvasion:
         """Initialize Pygame and create the game resources."""
         pygame.init()
         self.settings = Settings()
+        self.game_stats = GameStats(self)
 
         self.screen = pygame.display.set_mode(
             (self.settings.screen_w, self.settings.screen_h)

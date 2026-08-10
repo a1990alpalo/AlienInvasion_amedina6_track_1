@@ -47,6 +47,8 @@ class Settings:
         self.alien_w = 60
         self.alien_h = 60
         self.fleet_speed = 1
+        self.starting_ship_count = 3
+        self.alien_points = 50
 
         self.bullet_file = (
             asset_directory
@@ -62,4 +64,10 @@ class Settings:
             asset_directory
             / "sound"
             / "laser.mp3"
+        )
+
+        self.scores_file = (
+            asset_directory
+            / "files"
+            / "scores.json"
         )
